@@ -1,7 +1,7 @@
 // src/components/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../index.css'; // Ensure you have Tailwind set up in your index.css
+import '../index.css'; 
 import TicTacToeImg from '../assets/tictactoe.jpg';
 import MemImg from '../assets/Memory.jpg';
 import Wam from '../assets/wam.png';
@@ -31,24 +31,23 @@ function Home() {
                     <Link to="/MemoryGame">
                         <button className="mt-4 bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">Play</button>
                     </Link>
-                    <Link to="/MemoryGameRules">
+                    <Link to="/MemoryRules">
                         <button className="mt-2 ml-2 bg-black text-white rounded px-4 py-2 hover:bg-gray-400">Rules</button>
                     </Link>
                 </div>
 
-                {/* Card for Whack a Mole */}
+         
                 <div className="bg-white rounded-lg shadow-md p-8 text-center">
                     <img src={Wam} alt="Whack a Mole" className="w-full h-32 object-cover rounded-md" />
                     <h2 className="text-xl text-black font-black mt-4">Whack a Mole</h2>
                     <Link to="/Mole">
                         <button className="mt-4 bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600">Play</button>
                     </Link>
-                    <Link to="/MoleRules">
+                    <Link to="/WhackRules">
                         <button className="mt-2 ml-2 bg-black text-white rounded px-4 py-2 hover:bg-gray-400">Rules</button>
                     </Link>
                 </div>
 
-                {/* Card for Candy Crush */}
                 <div className="bg-white rounded-lg shadow-md p-8 text-center">
                     <img src={CandyImg} alt="Candy Crush" className="w-full h-32 object-cover rounded-md" />
                     <h2 className="text-xl text-black font-black mt-4">Candy Crush</h2>
@@ -59,6 +58,7 @@ function Home() {
                         <button className="mt-2 ml-2 bg-black text-white rounded px-4 py-2 hover:bg-gray-400">Rules</button>
                     </Link>
                 </div>
+              
             </div>
 
             {/* Back to Home Button */}

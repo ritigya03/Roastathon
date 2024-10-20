@@ -16,7 +16,7 @@ function Card({ card, handleFlip, flipped }) {
             className="w-full h-full rounded-lg object-cover shadow-md"
           />
         ) : (
-          <div className="w-full h-full bg-gray-400 rounded-lg"></div>
+          <div className="w-full h-full bg-black "></div>
         )}
       </div>
     </div>

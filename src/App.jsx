@@ -7,6 +7,9 @@ import { Routes, Route } from "react-router-dom";
 import Mole from "./pages/Mole";
 import HomePage from "./pages/HomePage";
 import TicTacToeRules from "./pages/TicTacToeRules";
+import MemoryRules from "./pages/MemoryRules";
+import CandyCrushRules from "./pages/CandyCrushRules";
+import WhackRules from "./pages/WhackRules";
 
 function App() {
   return (
@@ -22,7 +25,9 @@ function App() {
       <Route path="/Mole" element={<Mole />} />
       <Route path="/CandyCrush" element={<CandyCrush />} />
       <Route path="/TicTacToeRules" element={<TicTacToeRules />} />
- 
+      <Route path="/MemoryRules" element={<MemoryRules />} />
+      <Route path="/CandyCrushRules" element={<CandyCrushRules />} />
+      <Route path="/WhackRules" element={<WhackRules />} />
     </Routes>
   );
 }
