@@ -79,7 +79,7 @@ const Mole = () => {
     >
       <FireflyCanvas />
       <div className="flex flex-col items-center absolute top-2 left-[38%] z-10">
-        <h1 className="text-3xl mt-10 mb-4">Whack-a-Mole</h1>
+        <h1 className="text-3xl mt-1 mb-4">Whack-a-Mole</h1>
         <p className="text-xl mb-4">Score: {score}</p>
         <p className="text-xl mb-4">Time Left: {timeLeft}s</p>
         <div className="grid grid-cols-3 gap-4">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Board from '../components/Board';
 import CanvasBackground from '../components/Matrix';
-
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 function TicTacToe() {

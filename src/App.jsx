@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import CandyCrush from "./pages/CandyCrush";
 import { Routes, Route } from "react-router-dom";
 import Mole from "./pages/Mole";
+import HomePage from "./pages/HomePage";
+import TicTacToeRules from "./pages/TicTacToeRules";
 
 function App() {
   return (
@@ -13,11 +15,13 @@ function App() {
     //   <a href="/tic-tac-toe" className="text-xl text-white bg-indigo-600 py-2 px-4 rounded">Play Tic Tac Toe</a>
     // </div>
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<HomePage/>} />
+      <Route path="/home" element= {<Home/>} />
       <Route path="/TicTacToe" element={<TicTacToe />} />
       <Route path="/MemoryGame" element={<MemoryGame />} />
       <Route path="/Mole" element={<Mole />} />
       <Route path="/CandyCrush" element={<CandyCrush />} />
+      <Route path="/TicTacToeRules" element={<TicTacToeRules />} />
  
     </Routes>
   );
