@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../index.css'; 
 import TicTacToeImg from '../assets/tictactoe.jpg';
-import MemImg from '../assets/Memory.jpg';
+import MemImg from '../assets/memory.jpg';
 import Wam from '../assets/wam.png';
 import CandyImg from '../assets/candy.jpg';
 import BgImg from "../assets/bg_game.jpg";
