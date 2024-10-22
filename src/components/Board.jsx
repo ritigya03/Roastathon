@@ -1,48 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Square from './Square';
 
-function Board({ gameMode, difficulty }) {
+function Board({ gameMode, difficulty, voiceMove }) {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
 
-  // Voice recognition setup
+  // Handle voice move placement
   useEffect(() => {
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-
-      recognition.onresult = (event) => {
-        const spokenMove = event.results[event.resultIndex][0].transcript.trim();
-        handleVoiceMove(spokenMove);
-      };
-
-      recognition.start();
-    } else {
-      console.log('Speech Recognition not supported in this browser.');
+    if (voiceMove) {
+      const { symbol, position } = voiceMove;
+      if (squares[position] === null) {
+        const newSquares = squares.slice();
+        newSquares[position] = symbol;
+        setSquares(newSquares);
+        setIsXNext(symbol === 'O');
+      }
     }
-  }, []);
-
-  // Handle voice commands for placing a move
-  const handleVoiceMove = (spokenMove) => {
-    const moveMap = {
-      'one': 0, '1': 0,
-      'two': 1, '2': 1,
-      'three': 2, '3': 2,
-      'four': 3, '4': 3,
-      'five': 4, '5': 4,
-      'six': 5, '6': 5,
-      'seven': 6, '7': 6,
-      'eight': 7, '8': 7,
-      'nine': 8, '9': 8,
-    };
-    
-    const moveKey = spokenMove.toLowerCase();
-    if (moveKey in moveMap) {
-      handleClick(moveMap[moveKey]);
-    }
-  };
+  }, [voiceMove]);
 
   const handleClick = (index) => {
     if (squares[index] || calculateWinner(squares)) return;
@@ -111,68 +85,7 @@ function Board({ gameMode, difficulty }) {
   );
 }
 
-// Minimax Algorithm for hard difficulty
-function getBestMove(squares) {
-  const aiPlayer = 'O';
-  const humanPlayer = 'X';
-
-  const emptySquares = squares
-    .map((val, idx) => (val === null ? idx : null))
-    .filter((val) => val !== null);
-
-  if (calculateWinner(squares)) return null;
-
-  let bestScore = -Infinity;
-  let bestMove;
-
-  for (let i = 0; i < emptySquares.length; i++) {
-    let move = emptySquares[i];
-    squares[move] = aiPlayer;
-    let score = minimax(squares, 0, false);
-    squares[move] = null;
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = move;
-    }
-  }
-  return bestMove;
-}
-
-function minimax(squares, depth, isMaximizing) {
-  const winner = calculateWinner(squares);
-  if (winner === 'O') return 10 - depth;
-  if (winner === 'X') return depth - 10;
-  if (!squares.includes(null)) return 0;
-
-  const aiPlayer = 'O';
-  const humanPlayer = 'X';
-  const emptySquares = squares
-    .map((val, idx) => (val === null ? idx : null))
-    .filter((val) => val !== null);
-
-  if (isMaximizing) {
-    let bestScore = -Infinity;
-    for (let i = 0; i < emptySquares.length; i++) {
-      let move = emptySquares[i];
-      squares[move] = aiPlayer;
-      let score = minimax(squares, depth + 1, false);
-      squares[move] = null;
-      bestScore = Math.max(score, bestScore);
-    }
-    return bestScore;
-  } else {
-    let bestScore = Infinity;
-    for (let i = 0; i < emptySquares.length; i++) {
-      let move = emptySquares[i];
-      squares[move] = humanPlayer;
-      let score = minimax(squares, depth + 1, true);
-      squares[move] = null;
-      bestScore = Math.min(score, bestScore);
-    }
-    return bestScore;
-  }
-}
-
+// Check for winner
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -185,8 +98,8 @@ function calculateWinner(squares) {
     [2, 4, 6],
   ];
 
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
+  for (let line of lines) {
+    const [a, b, c] = line;
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }

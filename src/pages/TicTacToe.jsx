@@ -6,7 +6,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 function TicTacToe() {
   const [gameMode, setGameMode] = useState('2-player');
   const [difficulty, setDifficulty] = useState('easy');
-  const [lastCommand, setLastCommand] = useState('');
+  const [voiceMove, setVoiceMove] = useState(null); 
 
   const handleModeChange = (e) => setGameMode(e.target.value);
   const handleDifficultyChange = (e) => setDifficulty(e.target.value);
@@ -21,7 +21,6 @@ function TicTacToe() {
 
       recognition.onresult = (event) => {
         const lastResult = event.results[event.results.length - 1][0].transcript.trim();
-        setLastCommand(lastResult);
         handleVoiceCommand(lastResult); // handle commands based on voice
       };
 
@@ -30,17 +29,52 @@ function TicTacToe() {
       console.error("Speech Recognition is not supported in this browser.");
     }
   }, []);
-
   const handleVoiceCommand = (command) => {
-    console.log('Voice Command:', command);
-    // Example: "place X in top-left" or "reset"
-    // Map command to game actions here
-
-    if (command.toLowerCase().includes('reset')) {
-      window.location.reload(); // Example: Reset the game if 'reset' is spoken
+    console.log('Voice Command:', command); // Log the received command
+  
+    const moveMatch = command.toLowerCase().match(/(x|o) (top left|top middle|top right|middle left|middle|middle right|bottom left|bottom middle|bottom right)/);
+    if (moveMatch) {
+      const symbol = moveMatch[1].toUpperCase();
+      const position = moveMatch[2];
+      console.log(`Parsed Command: Symbol - ${symbol}, Position - ${position}`); // Debugging output
+  
+      const coordinates = getCoordinatesFromPosition(position); 
+      console.log(`Coordinates Found: ${coordinates}`);
+      if (coordinates !== null) {
+        console.log(`Placing ${symbol} at position ${coordinates}`);
+        setVoiceMove({ symbol, position: coordinates });
+      } else {
+        console.error('Invalid position:', position);
+      }
+    } else if (command.toLowerCase().includes('reset')) {
+      window.location.reload(); // Reset game
     }
-    // You can add more voice command parsing logic for placing moves
   };
+  
+  
+   
+  
+  const getCoordinatesFromPosition = (position) => {
+    const positionMap = {
+      'top left': 0,
+      'top middle': 1,
+      'top right': 2,
+      'middle left': 3,
+      'middle': 4,
+      'middle right': 5,
+      'bottom left': 6,
+      'bottom middle': 7,
+      'bottom right': 8,
+    };
+  
+    const normalizedPosition = position.toLowerCase();
+    console.log(`Normalizing Position: "${normalizedPosition}"`);
+    console.log(`Position Map:`, positionMap); 
+  
+    return positionMap[normalizedPosition] !== undefined ? positionMap[normalizedPosition] : null; 
+  };
+  
+  
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -79,7 +113,11 @@ function TicTacToe() {
           )}
 
           {/* Tic-Tac-Toe Board */}
-          <Board gameMode={gameMode} difficulty={difficulty} lastCommand={lastCommand} />
+          <Board 
+            gameMode={gameMode} 
+            difficulty={difficulty} 
+            voiceMove={voiceMove}
+          />
         </div>
       </div>
     </div>
